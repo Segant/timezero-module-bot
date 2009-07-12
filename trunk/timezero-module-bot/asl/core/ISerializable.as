@@ -1,0 +1,3 @@
+﻿interface asl.core.ISerializable {
+	
+};

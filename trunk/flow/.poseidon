@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<projectDescription>
+	<name>flow</name>
+	<exeName>flow.exe</exeName>
+	<comment />
+	<filter>*.d</filter>
+	<showemptyfolder>0</showemptyfolder>
+	<zipPath />
+	<buildSpec>
+		<buildOption />
+		<buildType>0</buildType>
+		<CompilerOption>16</CompilerOption>
+		<CompilerExtraOption />
+		<LibOption>0 0 0 0 16</LibOption>
+		<mainFile>Program.d</mainFile>
+		<Args />
+		<objPathName>objs</objPathName>
+		<projectFiles>
+			<source>
+				<name>F:\development\projects\poseidon\flow\flow\as2\ActionType.d</name>
+				<name>F:\development\projects\poseidon\flow\flow\FlashDecoder.d</name>
+				<name>F:\development\projects\poseidon\flow\flow\FlashEncoder.d</name>
+				<name>F:\development\projects\poseidon\flow\flow\Header.d</name>
+				<name>F:\development\projects\poseidon\flow\flow\io\BitReader.d</name>
+				<name>F:\development\projects\poseidon\flow\flow\io\BitWriter.d</name>
+				<name>F:\development\projects\poseidon\flow\flow\io\BufferedOutputStream.d</name>
+				<name>F:\development\projects\poseidon\flow\flow\io\DataReader.d</name>
+				<name>F:\development\projects\poseidon\flow\flow\io\DataWriter.d</name>
+				<name>F:\development\projects\poseidon\flow\flow\Rectangle.d</name>
+				<name>F:\development\projects\poseidon\flow\flow\Tag.d</name>
+				<name>F:\development\projects\poseidon\flow\flow\TagType.d</name>
+				<name>F:\development\projects\poseidon\flow\Program.d</name>
+			</source>
+			<interface />
+			<resource />
+		</projectFiles>
+		<includePaths />
+		<linkLibrarys />
+		<ignoreModules />
+	</buildSpec>
+</projectDescription>

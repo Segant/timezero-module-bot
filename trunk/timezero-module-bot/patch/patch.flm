@@ -1,0 +1,20 @@
+movie 'patch.swf' compressed // flash 9, total frames: 1, frame rate: 12 fps, 550x400 px
+
+
+  frame 0 
+    push '_global'
+    getVariable
+    push 'setPropertyFlags', '_global'
+    getVariable
+    push 'ASSetPropFlags'
+    getMember
+    setMember
+    push 7, 'setPropertyFlags', '_global'
+    getVariable
+    push 3, '_global'
+    getVariable
+    push 'ASSetPropFlags'
+    callMethod
+    pop
+  end // of frame 0
+end

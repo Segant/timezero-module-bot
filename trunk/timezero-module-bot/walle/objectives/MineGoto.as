@@ -1,0 +1,3 @@
+﻿class walle.objectives.MineGoto {
+	
+};
