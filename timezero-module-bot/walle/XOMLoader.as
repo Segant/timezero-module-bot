@@ -16,7 +16,6 @@ class walle.XOMLoader extends EventDispatcher {
 				
 			switch(type) {
 				case "object":
-					//trace("object - " + name);
 					result[name] = new Object();
 					_parseNode(node, result[name]);
 					break;
