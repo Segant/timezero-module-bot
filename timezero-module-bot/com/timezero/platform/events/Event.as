@@ -1,4 +1,4 @@
-class com.timezero.platform.events.Event
+﻿dynamic class com.timezero.platform.events.Event
 {
     var type, bubbles, cancelable, __get__target, __set__target, currentTarget, $target;
     function Event(type, bubbles, cancelable)

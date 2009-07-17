@@ -1,5 +1,5 @@
-﻿import events.*;
-import mx.utils.Delegate;
+﻿import com.timezero.platform.events.*;
+import asl.utils.Delegate;
 
 class asl.utils.Timer implements IEventDispatcher {
 	public static var TIMER : String = "TIMER";

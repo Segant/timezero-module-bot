@@ -1,5 +1,5 @@
 ﻿import timezero.*;
-import events.*;
+import com.timezero.platform.events.*;
 
 class timezero.battle.Battle {
 	private static var initialized : Boolean = initialize();

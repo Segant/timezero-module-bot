@@ -1,7 +1,7 @@
 ﻿import timezero.ChatCache;
-import events.*;
+import com.timezero.platform.events.*;
 
-import tzmf.utils.ObjectUtilites;
+import asl.utils.ObjectUtilites;
 
 dynamic class timezero.Chat {
 	public static var ON_CHAT_MESSAGE : String = "onChatMessage";

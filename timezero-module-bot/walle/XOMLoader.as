@@ -2,7 +2,6 @@
 
 class walle.XOMLoader extends EventDispatcher {
 	public static var ON_LOAD : String = "onLoad";
-	public static var ON_SAVE : String = "onSave";
 	
 	public function XOMReader() {
 		super(this);

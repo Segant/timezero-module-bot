@@ -1,4 +1,4 @@
-﻿import events.*;
+﻿import com.timezero.platform.events.*;
 
 class timezero.Dialog {
 	public static var ON_DIALOG : String = "onDialog";

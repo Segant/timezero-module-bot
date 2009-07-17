@@ -28,9 +28,29 @@ class asl.logging.Logger {
 	
 	public function log(level : Number) { }
 	
-	public function trace() : Void { }
-	public function info() : Void { }
-	public function warning() : Void { }
-	public function error() : Void { }
-	public function fatal() : Void { }
+	public function trace() : Void {
+		var args : Array = arguments;
+		args.splice(0, 0, Level.TRACE);
+		log.apply(this, args);
+	}
+	public function info() : Void {
+		var args : Array = arguments;
+		args.splice(0, 0, Level.INFO);
+		log.apply(this, args);
+	}
+	public function warning() : Void {
+		var args : Array = arguments;
+		args.splice(0, 0, Level.WARNING);
+		log.apply(this, args);
+	}
+	public function error() : Void {
+		var args : Array = arguments;
+		args.splice(0, 0, Level.ERROR);
+		log.apply(this, args);
+	}
+	public function fatal() : Void {
+		var args : Array = arguments;
+		args.splice(0, 0, Level.FATAL);
+		log.apply(this, args);
+	}
 };
