@@ -1,7 +1,7 @@
 ﻿import asl.*;
 import asl.utils.*;
 import asl.hashing.CRC32;
-import events.*;
+import com.timezero.platform.events.*;
 import timezero.Chat;
 
 class timezero.ChatCache {

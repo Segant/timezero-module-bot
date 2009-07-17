@@ -18,19 +18,19 @@ import asl.utils.Hooker;
 import asl.utils.Timer;
 import asl.ui.CheckBox;
 
-/** Original Timezero api */
-import events.*;
 
 /** Walle api */
-import walle.XOMLoader;
+
 import walle.Objective;
 import walle.ObjectiveManager;
-import walle.LicensionChecker;
-import walle.Logger;
 
 import walle.objectives.AutoDigger;
 
-class walle.Walle {
+import com.timezero.platform.events.*;
+
+class walle.Program {
+	public static var __uglyHack__ : Number = 0;
+	
 	private var _sendHook : Hook;
 	private var _recvHook : Hook;
 	private var _timer : Timer;
@@ -38,17 +38,19 @@ class walle.Walle {
 	private var _objectiveManager : ObjectiveManager;
 	private var _settings : Object;
 	private var _started : Boolean;
-	private var _log : Logger;
+	private var _logger : Logger;
 	
-	public function Walle(ui : MovieClip) {					
+	public function Program(ui : MovieClip) {					
 		_timer = new Timer(1000);
 		_ui = ui;
 		_objectiveManager = new ObjectiveManager();
 		_started = false;
-		_log = new Logger();
-		_log.connect("localhost", 5191);
 		
-		Chat.sendToClient("Walle.Walle(" + arguments.toString() + ");");
+		_logger = new asl.logging.loggers.TimezeroChatLogger();
+		_logger.layout = new asl.logging.layouts.DateLayout();
+		_logger.level = asl.logging.Level.TRACE;
+		
+		_logger.info("Walle.Walle(" + arguments.toString() + ");");
 	}
 	
 	private function _main() {
@@ -91,7 +93,7 @@ class walle.Walle {
 	}
 	
 	private function _loadSettings() {
-		Chat.sendToClient("Walle.loadSettings(" + arguments.toString() + ");");
+		_logger.info("Walle.loadSettings(" + arguments.toString() + ");");
 		var loader : XOMLoader = new XOMLoader();
 		
 		loader.addEventListener(XOMLoader.ON_LOAD, this, function(e : Event) {
@@ -187,16 +189,16 @@ class walle.Walle {
 	}
 	
 	public function printDebug(message : Object) {
-		if (_settings.gwalle.debug) {
-			Chat.sendToClient("DEBUG : " + message, 5, true, false);
+		if (_settings.walle.debug) {
+			_logger.info("DEBUG : " + message, 5, true, false);
 		}
 	}
 	
 	public function onLoad() {
 		Dialog.initialize();
-		_log.log(Logger.MESSAGE, "Loaded");
+		_logger.info("Loaded");
 		
-		var walle : Walle = this;
+		var walle : Program = this;
 		_sendHook = asl.utils.Hooker.setOnCall(_global.net.TzConnection.prototype, 
 				"send", function (args : Array, hook : Hook) {
 			if (args[0]) {
@@ -230,7 +232,7 @@ class walle.Walle {
 			}
 			return hook.invoke(args);
 		});
-		Chat.sendToClient("Walle.onLoad(" + arguments.toString() + ");");
+		_logger.info("Walle.onLoad(" + arguments.toString() + ");");
 		_loadSettings();
 	}
 	public function onClose() {

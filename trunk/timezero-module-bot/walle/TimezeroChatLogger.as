@@ -2,13 +2,11 @@
 import asl.logging.Layout;
 import asl.logging.Logger;
 
-import asl.logging.loggers.TraceLoggerHelper;
-
-class asl.logging.loggers.TraceLogger extends Logger {
+class walle.TimezeroChatLogger extends Logger {
 	private var _lvl : Number;
 	private var _layout : Layout;
 	
-	public function TraceLogger() {
+	public function TimezeroChatLogger() {
 		_lvl = Level.NONE;
 		_layout = null;
 	}
@@ -21,6 +19,6 @@ class asl.logging.loggers.TraceLogger extends Logger {
 		for (var i : Number = 0; i < arguments.length; i++) {
 			message += arguments[i];
 		}
-		TraceLoggerHelper._trace(_layout.format(level, message));
+		timezero.Chat.sendToClient(_layout.format(level, message));
 	}
 };

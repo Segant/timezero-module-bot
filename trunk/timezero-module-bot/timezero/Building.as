@@ -1,6 +1,6 @@
 ﻿import asl.utils.Hook;
 import asl.utils.Hooker;
-import events.*;
+import com.timezero.platform.events.*;
 
 class timezero.Building implements IEventDispatcher {
 	/** Events */
