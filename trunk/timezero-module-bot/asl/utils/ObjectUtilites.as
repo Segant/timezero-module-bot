@@ -1,7 +1,5 @@
-﻿import asl.test.UnitTest;
-
-class asl.utils.ObjectUtilites {
-	private static var _setPropertyFlags : Function = _global.setPropertyFlags;
+﻿class asl.utils.ObjectUtilites {
+	private static var _setPropertyFlags : Function = _global.setPropertyFlags || _global.ASSetPropFlags;
 	
 	/**
 	 * Checks wherever passed-in value is <code>String</code>.
