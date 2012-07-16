@@ -1,6 +1,7 @@
 ﻿import asl.utils.Delegate;
 import asl.collections.Queue;
 import asl.utils.Timer;
+import asl.fp;
 
 class walle.Logger {
 	public static var MESSAGE : String = "Message";
@@ -20,9 +21,9 @@ class walle.Logger {
 		_host = null;
 		_port = 0;
 		_socket = new XMLSocket();
-		_socket.onConnect = Delegate.create(this, _onConnect);
-		_socket.onData = Delegate.create(this, _onData);
-		_socket.onClose = Delegate.create(this, _onClose);
+		_socket.onConnect = fp.delegate(this, _onConnect);
+		_socket.onData = fp.delegate(this, _onData);
+		_socket.onClose = fp.delegate(this, _onClose);
 		_messages = new asl.collections.ArrayQueue();
 		_errorCount = 0;
 		_connected = false;
