@@ -1,4 +1,4 @@
-import asunit.errors.AssertionFailedError;
+﻿import asunit.errors.AssertionFailedError;
 import asunit.errors.IllegalOperationError;
 
 /**
@@ -70,6 +70,29 @@ class asunit.framework.Assert {
 	 */
 
 	/**
+	 * Checks whether passed value is Array.
+	 */
+	public static function isArray(value : Object) : Boolean {
+		return (typeof(value) == "array" || value instanceof Array);
+	}
+	public static function equals(a : Object, b : Object) : Boolean {
+		if (isArray(a) && isArray(b)) {
+			if (a.length != b.length) {
+				return false;
+			}
+			for (var i : Number = 0; i < a.length; i++) {
+				if (!equals(a[i], b[i])) {
+					return false;
+				}
+			}
+			
+			return true;
+		}
+		
+		return a == b;
+	}
+
+	/**
 	 * Asserts that two objects are equal. If either of the
 	 * objects provides an <code>equals()</code> method it will be used to
 	 * determine equality. Otherwise, equality will be evaluated using the
@@ -108,7 +131,7 @@ class asunit.framework.Assert {
 		} else if(assertion2["equals"] != undefined) {
 			addTestResult(String(msg), "assertEquals", assertion2["equals"](assertion1));
 		} else {
-			addTestResult(format(String(msg), assertion1, assertion2), "assertEquals", assertion1 == assertion2);
+			addTestResult(format(String(msg), assertion1, assertion2), "assertEquals", equals(assertion1, assertion2));
 		}
 
 	}

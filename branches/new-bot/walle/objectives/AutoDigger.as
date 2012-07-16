@@ -17,9 +17,7 @@ import asl.utils.Hook;
 import asl.utils.Hooker;
 import asl.utils.Timer;
 import asl.ui.CheckBox;
-
-/** Original Timezero api */
-import events.*;
+import asl.events.*;
 
 /** Walle api */
 import walle.Objective;
