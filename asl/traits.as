@@ -1,4 +1,4 @@
-class asl.traits {
+﻿class asl.traits {
 	/**
 	 * From SWF file format specification:
 		 *   ActionTypeOf pushes the object type to the stack, 
@@ -90,6 +90,14 @@ class asl.traits {
 		return value.constructor == Object;
 	}
 	
+	public static function isObject(value : Object) : Boolean {
+		// XXX : since new Number() instanceof Object == true but
+		//                        0 instanceof Object == false
+		// i think it's better to have everything as Object except
+		// null and undefined
+		return value != null && value != undefined;
+	}
+	
 	public static function instanceOf(obj : Object, cls : Object) {
 		if (cls == String) return isString(obj);
 		if (cls == Function) return isFunction(obj);
@@ -97,6 +105,7 @@ class asl.traits {
 		if (cls == Number) return isNumber(obj);
 		if (cls == MovieClip) return isMovieClip(obj);
 		if (cls == Array) return isArray(obj);
+		if (cls == Object) return isObject(obj);
 		
 		return obj instanceof cls;
 	}
