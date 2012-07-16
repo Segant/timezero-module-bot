@@ -13,7 +13,7 @@ class walle.XOMLoader extends EventDispatcher {
 			var node : XMLNode = xml.childNodes[i];
 			var type : String = node.nodeName;
 			var name : String = node.attributes.name || i;
-				
+			
 			switch(type) {
 				case "object":
 					//trace("object - " + name);
