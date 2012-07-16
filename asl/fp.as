@@ -1,4 +1,4 @@
-import asl.core.IllegalArgumentException;
+﻿import asl.core.IllegalArgumentException;
 import asl.math;
 import asl.traits;
 
@@ -13,14 +13,36 @@ class asl.fp {
 	}
 	
 	/**
+	 * Returns a new function which calls the given function
+	 * with the given scope.
 	 * Examples:
-		 * fp.curry(asl.math.max, 99)(100) == 100
-		 * fp.curry(asl.math.max, 99)(12) == 12
+		 * f = function(){return this.a};
+		 * fd = fp.delegate({a:1}, f);
+		 * fd() == 1;
+		 * fd.apply({a:2}) == 1;
+		 * f.apply({a:2}) == 2;
+	 * @param	obj
+	 * @param	func
+	 * @return
+	 */
+	public static function delegate(obj : Object, func : Function) : Function {
+		var proxy = function () {
+            var _object = arguments.callee.object;
+            var _func = arguments.callee.func;
+            return (_func.apply(_object, arguments));
+        }
+		
+        proxy.object = obj;
+        proxy.func = func;
+        return proxy;
+	}
+	
+	/**
 	 * @param	f
 	 * @param	args
 	 * @return
 	 */
-	public static function curry(f : Function, args : FunctionArguments) : Function {
+	public static function curry(f : Function, args : Array) : Function {
 		var self : Object = undefined;
 		if (arguments.length == 3) {
 			self = arguments[2];
@@ -32,30 +54,25 @@ class asl.fp {
 	}
 	
 	/**
-	 * Examples:
-		 * f = fp.curried(asl.math.max, 2)
-		 * f1 = f(1)
-		 * f1(2) == 2
-		 * f1(0) == 0
-		 * 
-		 * f13 = f(13)
-		 * f13(3) == 13
-		 * f(4)(5) == 5
 	 * @param	f
 	 * @param	n
 	 * @return
 	 */
 	public static function curried(f : Function, n : Number) : Function {
-		return function(args : Array, arg : Object) {
-			args = args.slice(0, args.length - 1)
+		if (n == 0) {
+			return f;
+		}
+		
+		return fp.curry(function(args : Array, arg : Object) {
+			args = args.slice(0, args.length);
 			args.push(arg);
 			
 			if (args.length == n) {
 				return f.apply(this, args);
 			} else {
-				return fp.curry(arguments.callee, FunctionArguments([args]), this); 
+				return fp.curry(arguments.callee, [args], this); 
 			}
-		}
+		}, [[]]);
 	}
 	
 	/**
@@ -90,7 +107,7 @@ class asl.fp {
 	 */
 	public static function map(f : Function, list : Array) : Array {
 		var result : Array = [];
-		for (var i in list) {
+		for (var i : Number = 0; i < list.length; i++) {
 			result.push(f(list[i]));
 		}
 		return result;
@@ -110,7 +127,7 @@ class asl.fp {
 	 */
 	public static function foldl(f : Function, init : Object, list : Array) {
 		var result : Object = init;
-		for (var i in list) {
+		for (var i : Number = 0; i < list.length; i++) {
 			result = f(result, list[i]);
 		}
 		return result;
@@ -144,7 +161,7 @@ class asl.fp {
 	 */
 	public static function filter(f : Function, list : Array) : Array{
 		var result : Array = [];
-		for (var i in list) {
+		for (var i : Number = 0; i < list.length; i++) {
 			if (f(list[i])) {
 				result.push(list[i]);
 			}
@@ -178,9 +195,14 @@ class asl.fp {
 	 * @return
 	 */
 	public static function zip() : Array {
+		if (arguments.length == 0) {
+			return undefined;
+		}
+		
 		var count : Number = fp.foldl(
-			function(acc, next) { return math.min(acc.length, next.length); },
-			[], arguments);
+			function(acc, next) { return math.min(acc, next.length); },
+			Number.MAX_VALUE, arguments);
+		
 	    var result : Array = new Array(count);
 		
 		for (var i = 0; i < count; i++) {
@@ -191,93 +213,6 @@ class asl.fp {
 			result[i] = next;
 		}
 		return result;
-	}
-	
-	/**
-	 * Finds a sum of the given monoid on the list.
-	 * Examples:
-		 * ordering = function(i) { 
-		 * 	   return { 
-		 *         val : (!!i) ? i : 0,
-		 *         add : function(that) {
-		 *             matcher = fp.curry(fp.match, [[this.val, that.val]]);
-		 *             if (matcher([-1, fp.ANY]) return -1;
-		 *             if (matcher([1, fp.ANY]) return 1;
-		 *             if (matcher([0, fp.ANY]) return that.val;
-		 *         }
-		 *     };
-		 * }
-		 * 
-		 * compare = function() {
-		 *     if (arguments.length != 2) {
-		 *         throw new IllegalArgumentException("not enough arguments");
-		 *     }
-		 * 
-		 *     var a : Object = arguments[0];
-		 *     var b : Object = arguments[1];
-		 * 
-		 *     if (fp.typeMatch([a, b], [String, String]) {
-		 *         if (a.length != 1 || b.length != 1) {
-		 *             throw new IllegalArgumentException("can only compare strings of length 1 and numbers");
-		 *         }
-		 *         a = a.charCodeAt(0);
-		 *         b = b.charCodeAt(0);
-		 *     }
-		 * 
-		 *     if (fp.typeMatch([a, b], [Number, Number]) {
-		 *         return (a < b) ? -1 :
-	     *                ((a > b) ? 1 : 0);
-		 *     } else {
-		 *         throw new IllegalArgumentException("can only compare strings of length 1 and numbers");
-		 *     }
-		 * }
-		 * 
-		 * compareLists = function(a, b) {
-		 *     return fp.foldm(ordering, 
-		 *         [compare(a.length, b.length)].concat(
-		 *             fp.map(function(pair) { return compare(pair[0], pair[1]); }, fp.zip(a, b))
-		 *         ));
-		 * 
-	 * @param	monoid   monoid constructor. must return an object
-	 *                   with a method add(m). This method must satisfy
-	 *                   a.add(b).add(c) == a.add(b.add(c)),
-	 * 					 monoid().add(monoid(b)) == monoid(b) and
-	 *                   monoid(a).add(monoid()) == monoid(a)
-	 * @param	list
-	 * @return           folded monoid
-	 */
-	public static function foldm(monoid : Function, list : Array) : Object {
-		var result : Object = monoid(list[0]);
-		for (var i = 1; i < list.length; i++) {
-			result = result.add(monoid(list[i]));
-		}
-		return result;
-		
-	}
-	
-	/**
-	 * Returns a new function which calls the given function
-	 * with the given scope.
-	 * Examples:
-		 * f = function(){return this.a};
-		 * fd = fp.delegate({a:1}, f);
-		 * fd() == 1;
-		 * fd.apply({a:2}) == 1;
-		 * f.apply({a:2}) == 2;
-	 * @param	obj
-	 * @param	func
-	 * @return
-	 */
-	public static function delegate(obj : Object, func : Function) : Function {
-		var proxy = function () {
-            var _object = arguments.callee.object;
-            var _func = arguments.callee.func;
-            return (_func.apply(_object, arguments));
-        }
-		
-        proxy.object = obj;
-        proxy.func = func;
-        return proxy;
 	}
 	
 	/**

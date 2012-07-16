@@ -1,4 +1,4 @@
-import asl.utils.ArrayUtilites;
+﻿import asl.utils.ArrayUtilites;
 import asl.utils.ObjectUtilites;
 
 
@@ -29,8 +29,7 @@ class asl.utils.JSONSerializer {
 		}
 		
 		if (ObjectUtilites.isArray(obj)) {
-			var arr : Array = Array(obj);
-			return "[" + _join(arr, function(o : Object) {
+			return "[" + _join(obj, function(o : Object) {
 				return JSONSerializer.serialize(o);
 			}) + "]";
 		}
