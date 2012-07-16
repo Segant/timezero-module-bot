@@ -98,6 +98,7 @@ class walle.Walle {
 				
 				Chat.sendToClient("Настройки загружены.");
 				
+				Chat.sendToClient(_settings.walle.autoOff);
 				//if (!_checkLicension()) {
 					//Chat.sendToClient("Лицензия устарела или не валидна.");
 					//return;
@@ -119,6 +120,7 @@ class walle.Walle {
 	private function _initializeUI() {
 		function onClick(e : Event) {
 			var checkBox : CheckBox = CheckBox(e.target);
+			Chat.sendToClient("checkBox pressed : " + checkBox.name);
 			switch(checkBox.name) {
 				case "autoHealCheckBox":
 					checkBox.checked = !checkBox.checked;
@@ -163,7 +165,6 @@ class walle.Walle {
 		_ui.autoHealCheckBox.addEventListener(CheckBox.ON_CLICK, this, onClick);
 		_ui.autoOffCheckBox.addEventListener(CheckBox.ON_CLICK, this, onClick);
 		_ui.autoBattleCheckBox.addEventListener(CheckBox.ON_CLICK, this, onClick);
-		_ui.autoHealCheckBox.addEventListener(CheckBox.ON_CLICK, this, onClick);
 		_ui.onOffCheckBox.addEventListener(CheckBox.ON_CLICK, this, onClick);
 		_ui.debugCheckBox.addEventListener(CheckBox.ON_CLICK, this, onClick);
 		
