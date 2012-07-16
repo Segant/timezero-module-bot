@@ -1,6 +1,6 @@
 ﻿import tzmf.*;
 import timezero.*;
-import asl.Math;
+import asl.math;
 import asl.collections.Matrix;
 import asl.collections.Queue;
 import asl.collections.PriorityQueue;
@@ -23,28 +23,28 @@ class timezero.battle.Map
 		var dx : Number = x2 - x1;
 		var dy : Number = y2 - y1;
 		
-		var sx : Number = Math.sign(dx);
-		var sy : Number = Math.sign(dy);
+		var sx : Number = math.sign(dx);
+		var sy : Number = math.sign(dy);
 		
 		var k : Number = (y2 - y1) / (x2 - x1);
 		var b : Number = y1 - k * x1;
 		
 		if(dx > dy) for(var x : Number = x1; x != x2; x += sx)
 		{
-			if(!isPassable(Math.round(x), Math.round(k * x + b))) return false;
+			if(!isPassable(math.round(x), math.round(k * x + b))) return false;
 		}
 		else for(var y : Number = y1; y != y2; y += sy)
 		{
-			if(!isPassable(Math.round((y - b) / k), Math.round(y))) return false;
+			if(!isPassable(math.round((y - b) / k), math.round(y))) return false;
 		}
 		
 		return true;
 	}
 	public static function getGexDistance(x1 : Number, y1 : Number, x2 : Number, y2 : Number) : Number
 	{
-		var dx : Number = Math.abs(x1 - x2);
-		var dy : Number = Math.abs(y1 - y2);
-		if(dx == 0 || dy == 0) return Math.max(dx, dy);
+		var dx : Number = math.abs(x1 - x2);
+		var dy : Number = math.abs(y1 - y2);
+		if(dx == 0 || dy == 0) return math.maxl(dx, dy);
 		else return dx * dy;
 	}
 	public static var wayCache : Object = new Object();
@@ -60,10 +60,10 @@ class timezero.battle.Map
 		return findWayByXY(o1.bx, o1.by, o2.bx, o2.by);
 	}
 	public static function findWayByXY(x1 : Number, y1 : Number, x2 : Number, y2 : Number) : Array {
-		debug("Looking for way from " + xyToString(x1, y1) + " to " + xyToString(x2, y2));
+		//debug("Looking for way from " + xyToString(x1, y1) + " to " + xyToString(x2, y2));
 		
 		if(!!wayCache[x1 + "_" + y1 + "_" + x2 + "_" + y2]) {
-			debug("Found it in cache");
+			//debug("Found it in cache");
 			return wayCache[x1 + "_" + y1 + "_" + x2 + "_" + y2];
 		}
 		
@@ -115,10 +115,10 @@ class timezero.battle.Map
 			}
 		}
 		
-		debug("counter : " + counter);
+		//debug("counter : " + counter);
 		
 		if(!success) {
-			debug("wtf3");
+			//debug("wtf3");
 			return null;
 		}
 		
@@ -161,7 +161,7 @@ class timezero.battle.Map
 	
 	public static function get clearGex() : Number
 	{
-		for(var k = 0, i = Math.randomIntegerInRange(0, 5); k < 6; k++, i = (i + 1)%6)
+		for(var k = 0, i = math.round(math.rand(-0.5, 5.5)); k < 6; k++, i = (i + 1)%6)
 		{
 			if(isPassable(_global.MAP.iam.bx + _global.gex[i].x, _global.MAP.iam.by + _global.gex[i].y, true))
 			{

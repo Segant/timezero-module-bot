@@ -10,7 +10,7 @@ import timezero.battle.Players;
 import timezero.battle.Map;
 
 /** Action Script Library */
-import asl.Math;
+import asl.math;
 import asl.utils.ObjectUtilites;
 import asl.utils.ArrayUtilites;
 import asl.utils.Hook;
@@ -53,9 +53,9 @@ class walle.Walle {
 		Chat.addEventListener(Chat.ON_CHAT_MESSAGE, this, onChatMessage);
 		_timer.addEventListener(Timer.TIMER, this, onTimerEvent);
 		
-		Chat.sendToClient("WALL-E - TimeZero autodigger", Math.randomIntegerInRange(0, 15));
-		Chat.sendToClient("(C) Konovalov Alexander aka Linos, xenn, Edwin Irving, Revival, Konrad Roar", Math.randomIntegerInRange(0, 15));
-		Chat.sendToClient("(!!!) Экспериментальная версия. (!!!)", Math.randomIntegerInRange(0, 15));
+		Chat.sendToClient("WALL-E - TimeZero autodigger", math.round(math.rand(-0.5, 15.5)));
+		Chat.sendToClient("(C) Konovalov Alexander aka Linos, xenn, Edwin Irving, Revival, Konrad Roar", math.round(math.rand(-0.5, 15.5)));
+		Chat.sendToClient("(!!!) Экспериментальная версия. (!!!)", math.round(math.rand(-0.5, 15.5)));
 		
 		_timer.delay = Number(_settings.walle.thinkDelay);
 	}
@@ -95,17 +95,9 @@ class walle.Walle {
 		loader.addEventListener(XOMLoader.ON_LOAD, this, function(e : Event) {
 			if (e.success) {
 				_settings = e.result;
-				
 				Chat.sendToClient("Настройки загружены.");
-				
-				Chat.sendToClient(_settings.walle.autoOff);
-				//if (!_checkLicension()) {
-					//Chat.sendToClient("Лицензия устарела или не валидна.");
-					//return;
-				//}
 			} else {
 				Chat.sendToClient("Не могу загрузить \"" + e.url + "\".");
-				//Chat.sendToClient("Лицензия устарела или не валидна.");
 				return;
 			}
 			
@@ -186,7 +178,7 @@ class walle.Walle {
 	}
 	
 	public function printDebug(message : Object) {
-		if (_settings.gwalle.debug) {
+		if (_settings.walle.debug) {
 			Chat.sendToClient("DEBUG : " + message, 5, true, false);
 		}
 	}
@@ -217,15 +209,6 @@ class walle.Walle {
 				"onData", function (args : Array, hook : Hook) {
 			if (args[0]) {
 				walle.printDebug(args[0].toString());
-				
-				/*var packetName : String = args[0].value.firstChild.nodeName;
-				if (packetName.indexOf("DLS") == 0) {
-					timezero.Chat.sendToClient("DETECTED Anti-cheat NetCommand : ", 5, true);
-					timezero.Chat.sendToClient(args[0].toString());
-					return;
-				} else {
-					return hook.invoke(args);
-				}*/
 			}
 			return hook.invoke(args);
 		});

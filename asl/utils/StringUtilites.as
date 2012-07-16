@@ -58,14 +58,6 @@
 		
 		return result;
 	};
-	public static function bytesToBase16(data : Array) : String
-	{
-		var result : String = "";
-		var hexChars : String = "0123456789ABCDEF";
-		for(var i : Number = 0; i < data.length; i++)
-			result += hexChars[data[i] >> 4 & 0xF] + hexChars[data[i] & 0xF];
-		return result;
-	}
 	public static function trimBegin(s : String) : String {
 		while(s.substr(0, 1) == ' ') s = s.substr(1);
 		return s;
