@@ -18,6 +18,7 @@ import asl.utils.Hooker;
 import asl.utils.Timer;
 import asl.ui.CheckBox;
 import asl.events.*;
+import asl.fp;
 
 /** Walle api */
 import walle.Objective;
@@ -47,9 +48,9 @@ class walle.objectives.AutoDigger implements Objective {
 	
 	public function getEnemys() {
 		var players : Array = ArrayUtilites.clone(Map.enemyPlayers);
-		players = ArrayUtilites.filter(players, function(item : Object) {
+		players = fp.filter(function(item : Object) {
 			return (Map.myPlayer.group != item.group)/* && timezero.battle.Map.myPlayer.login != item.login*/;
-		});
+		}, players);
 		if(players.length == 0) return null;
 		
 		players.sort(function(a : Object, b : Object) {			
@@ -75,10 +76,10 @@ class walle.objectives.AutoDigger implements Objective {
 	public function getConcurents() //получаем список всех, кто в одной группе с ботом
 	{
 		var players2 : Array = ArrayUtilites.clone(Map.enemyPlayers);
-		players2 = ArrayUtilites.filter(players2, function(item : Object)
+		players2 = fp.filter(function(item : Object)
 		{
 			return ((timezero.battle.Map.myPlayer.group == item.group) && (timezero.battle.Map.myPlayer.login != item.login))
-		});
+		}, players2);
 		if(players2.length == 0) return null;
 		players2.sort(function(a : Object, b : Object) {			
 			var ad : Number = Map.findWay(Map.myPlayer, a).length;
@@ -98,7 +99,7 @@ class walle.objectives.AutoDigger implements Objective {
 	
 	private function getBoxes() {
 		var droped : Array = Map.dropedItems.concat();
-		droped = ArrayUtilites.filter(droped, function(item : Object) {
+		droped = fp.filter(function(item : Object) {
 			printDebug(item.txt);
 			var name : String = item.txt.toLowerCase().split(' ').join('_');
 			
@@ -108,7 +109,7 @@ class walle.objectives.AutoDigger implements Objective {
 			} else {
 				return false;
 			}
-		});
+		}, droped);
 		printDebug(droped.length);
 		if(droped.length == 0) return null;
 		
@@ -172,9 +173,9 @@ class walle.objectives.AutoDigger implements Objective {
 				attackMonster(enemy);
 				Battle.endOfTurn();
 			} else if (box != null) {
-				var count : Number = ArrayUtilites.countOf(Map.enemyPlayers, function (item : Object) : Boolean {
+				var count : Number = fp.count(function (item : Object) : Boolean {
 					return Map.myPlayer.group == item.group && User.login != item.login;	
-				});
+				}, Map.enemyPlayers);
 				printDebug("concurrents : " + count);
 				if (count == 0 && User.isVIP) {
 					printDebug("what the fuck?");
