@@ -3,7 +3,7 @@ import asl.utils.ClassUtilites;
 import asl.core.IllegalStateException;
 import asl.core.IllegalArgumentException;
 
-class asl.core.Throwable implements asl.core.ISerializable {
+class asl.core.Throwable {
     /**
      * Specific details about the Throwable.
      *
